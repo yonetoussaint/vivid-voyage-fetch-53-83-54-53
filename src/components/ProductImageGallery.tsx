@@ -164,7 +164,8 @@ const ProductImageGallery = forwardRef<ProductImageGalleryRef, ProductImageGalle
     configurationData
   }, ref) => {
   // Create unified gallery items
-  const galleryItems = createGalleryItems(images, videos, model3dUrl);
+  const [displayImages, setDisplayImages] = useState<string[]>(images);
+  const galleryItems = createGalleryItems(displayImages, videos, model3dUrl);
   
   // Debug logging for 3D model
   console.log('📷 ProductImageGallery: model3dUrl received:', model3dUrl);
@@ -206,9 +207,34 @@ const ProductImageGallery = forwardRef<ProductImageGalleryRef, ProductImageGalle
   const navigate = useNavigate();
 
 
-const tabsContainerRef = useRef<HTMLDivElement>(null);
+  const tabsContainerRef = useRef<HTMLDivElement>(null);
 
   const [openedThumbnailMenu, setOpenedThumbnailMenu] = useState<number | null>(null);
+  
+  // Update display images when props change
+  useEffect(() => {
+    setDisplayImages(images);
+  }, [images]);
+
+  // Handle variant image selection
+  const handleVariantImageChange = useCallback((imageUrl: string, variantName: string) => {
+    console.log('📷 Variant image selected:', imageUrl, variantName);
+    
+    // Update the display images to show the variant image first
+    const newImages = [imageUrl, ...images.filter(img => img !== imageUrl)];
+    setDisplayImages(newImages);
+    
+    // Set the gallery to show the first image (the variant image)
+    if (api) {
+      api.scrollTo(0);
+    }
+    setCurrentIndex(0);
+    
+    // Call the external callback if provided
+    if (onVariantImageChange) {
+      onVariantImageChange(imageUrl, variantName);
+    }
+  }, [images, api, onVariantImageChange]);
 
   const [isPlaying, setIsPlaying] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -719,7 +745,7 @@ useImperativeHandle(ref, () => ({
              <div className="px-2">
         <ProductVariants 
           productId={product?.id}
-          onImageSelect={onVariantImageChange}
+          onImageSelect={handleVariantImageChange}
           onConfigurationChange={(configData) => {
             // Store configuration data in state to pass to ConfigurationSummary
             setInternalConfigData(configData);
