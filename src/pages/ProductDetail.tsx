@@ -109,7 +109,18 @@ const ProductDetail = () => {
     }
   }, [product, getTabsContainer]);
 
-  // Initialize display images
+  // Handle variant image selection
+  const handleVariantImageSelection = useCallback((imageUrl: string, variantName: string) => {
+    console.log('📷 Variant image selected in ProductDetail:', imageUrl, variantName);
+    
+    // Update display images with variant image first
+    const otherImages = product?.product_images?.map((img: any) => img.src).filter(img => img !== imageUrl) || [];
+    const newImages = [imageUrl, ...otherImages];
+    setDisplayImages(newImages);
+    setCurrentImageIndex(0);
+  }, [product]);
+
+  // Initialize display images and handle default variant image
   useEffect(() => {
     const imgs = product?.product_images?.map((img: any) => img.src) || [];
     if (imgs.length > 0) {
@@ -201,6 +212,7 @@ const ProductDetail = () => {
             setCurrentImageIndex(currentIndex);
             setTotalImages(totalItems);
           }}
+          onVariantImageChange={handleVariantImageSelection}
         />
       </div>
 

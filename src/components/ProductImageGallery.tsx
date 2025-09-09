@@ -225,10 +225,12 @@ const ProductImageGallery = forwardRef<ProductImageGalleryRef, ProductImageGalle
     setDisplayImages(newImages);
     
     // Set the gallery to show the first image (the variant image)
-    if (api) {
-      api.scrollTo(0);
-    }
-    setCurrentIndex(0);
+    setTimeout(() => {
+      if (api) {
+        api.scrollTo(0);
+      }
+      setCurrentIndex(0);
+    }, 100);
     
     // Call the external callback if provided
     if (onVariantImageChange) {

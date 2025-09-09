@@ -112,9 +112,16 @@ export default function ProductVariants({
     console.log('ProductVariants - mapped colors array:', colors);
     setColorVariants(colors);
 
-    // Ensure a color is selected
+    // Ensure a color is selected and set default image
     if (colors.length > 0 && !selectedColor) {
-      setSelectedColor(colors[0].name);
+      const firstColor = colors[0];
+      setSelectedColor(firstColor.name);
+      
+      // Set the first color variant's image as default in gallery
+      if (firstColor.image && onImageSelect) {
+        console.log('Setting default color variant image:', firstColor.image, firstColor.name);
+        onImageSelect(firstColor.image, firstColor.name);
+      }
     }
 
     // Determine active color id and variants for that color
