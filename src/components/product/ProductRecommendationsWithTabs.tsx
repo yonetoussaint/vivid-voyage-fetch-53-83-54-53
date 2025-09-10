@@ -118,11 +118,11 @@ export default function ProductRecommendationsWithTabs({ hideHeader = false, hid
   }
 
   return (
-    <ProductSectionWrapper>
+    <div>
       <div className="w-full bg-white">
         {/* Header - similar to SearchInfo component */}
         {!hideHeader && (
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center justify-between">
             <h1 className="text-xl font-semibold text-gray-900">
               More from this seller
             </h1>
@@ -168,10 +168,6 @@ export default function ProductRecommendationsWithTabs({ hideHeader = false, hid
 
                     {/* Product info - Clean and simple */}
                     <div className="space-y-1">
-                      <h4 className="text-sm font-medium line-clamp-2 text-gray-900">
-                        {product.name}
-                      </h4>
-
                       <div className="flex items-center gap-2">
                         <span className="text-red-500 font-semibold text-base">
                           ${Number(product.discount_price || product.price).toFixed(2)}
@@ -195,6 +191,6 @@ export default function ProductRecommendationsWithTabs({ hideHeader = false, hid
          </div>
        )}
       </div>
-    </ProductSectionWrapper>
+    </div>
   );
 }
