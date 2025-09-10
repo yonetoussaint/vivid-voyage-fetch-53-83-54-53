@@ -723,7 +723,8 @@ useImperativeHandle(ref, () => ({
         { id: 'variants', label: 'Variants' },
         { id: 'reviews', label: 'Reviews' },
         { id: 'qna', label: 'Q&A' },
-        { id: 'shipping', label: 'Shipping' }
+        { id: 'shipping', label: 'Shipping' },
+{ id: 'recommendations', label: 'Recommendations' }
       ]}
       activeTab={activeTab}
       onTabChange={setActiveTab}
