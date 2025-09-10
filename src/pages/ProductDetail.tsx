@@ -51,6 +51,8 @@ const [sharePanelOpen, setSharePanelOpen] = useState(false);
   const descriptionRef = useRef<HTMLDivElement>(null);
   const recommendationsRef = useRef<HTMLDivElement>(null);
   const verticalRecommendationsRef = useRef<HTMLDivElement>(null);
+const galleryRef = useRef<ProductImageGalleryRef>(null);
+
 
   // Hooks
   const navigate = useNavigate();
