@@ -495,10 +495,15 @@ const ProductImageGallery = forwardRef<ProductImageGalleryRef, ProductImageGalle
   };
 
 
+// In ProductImageGallery component, update the useImperativeHandle to expose more methods:
+
 useImperativeHandle(ref, () => ({
       getTabsContainer: () => tabsContainerRef.current,
       setActiveTab: (tab: string) => setActiveTab(tab),
-      getActiveTab: () => activeTab
+      getActiveTab: () => activeTab,
+      // Add these new methods to sync with sticky tabs
+      onTabChange: setActiveTab, // Expose the setter function
+      activeTab: activeTab // Expose current active tab
     }));
 
   const toggleVideo = () => {
