@@ -4,25 +4,25 @@ import ReviewGallery from "./ReviewGallery";
 import ProductRecommendationsWithTabs from "./ProductRecommendationsWithTabs";
 
 interface ProductDetailsProps {
-  onProductDetailsClick?: () => void;
+  onConfigurationSummaryClick?: () => void;
 }
 
 const ProductDetails: React.FC<ProductDetailsProps> = ({ 
-  onProductDetailsClick
+  onConfigurationSummaryClick
 }) => {
   return (
     <div className="space-y-6">
       <div className="absolute bottom-3 right-3 z-30">
         <button 
-          onClick={onProductDetailsClick}
+          onClick={onConfigurationSummaryClick}
           className="bg-black/60 backdrop-blur-sm text-white px-2 py-1 rounded-full text-xs font-medium flex items-center gap-1.5 hover:bg-black/70 transition-colors"
         >
           <BadgeInfo size={12} className="text-white/80" />
-          <span className="text-xs font-medium text-white/80">Product Details</span>
+          <span className="text-xs font-medium text-white/80">Configuration</span>
           <ChevronRight size={10} className="text-white/80" />
         </button>
       </div>
-      
+
       <ProductRecommendationsWithTabs />
       <ReviewGallery />
     </div>
