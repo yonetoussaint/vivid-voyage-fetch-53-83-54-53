@@ -116,11 +116,12 @@ const ReviewGallery = () => {
     <>
       <div className="w-full bg-white">
         {/* Header */}
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-2xl font-bold text-gray-900">Review gallery</h2>
-          <button className="flex items-center text-gray-600 hover:text-gray-900 transition-colors">
-            <span className="text-sm font-medium mr-1">See All (9)</span>
-            <ChevronRight className="w-4 h-4" />
+               <div className="flex items-center justify-between">
+          <h1 className="text-xl font-semibold text-gray-900">
+           Review Gallery
+          </h1>
+          <button className="flex items-center gap-1 py-1 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors">
+            View all <ChevronRight className="h-4 w-4" />
           </button>
         </div>
 
