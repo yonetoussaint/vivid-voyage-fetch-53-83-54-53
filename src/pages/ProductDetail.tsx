@@ -203,7 +203,7 @@ const galleryRef = useRef<ProductImageGalleryRef>(null);
       {/* Image Gallery Section */}
       <div className="relative z-0 w-full bg-transparent" ref={overviewRef}>
         <ProductImageGallery 
-          ref={imageGalleryRef}
+          ref={galleryRef}
           images={displayImages.length > 0 ? displayImages : ["/placeholder.svg"]}
           videos={product?.product_videos || []}
           model3dUrl={product?.model_3d_url}
