@@ -714,23 +714,24 @@ useImperativeHandle(ref, () => ({
       <InfoBand />
 
       {/* Tabs Navigation */}
-      {totalItems > 1 && (
-          <div ref={tabsContainerRef} className="w-screen -mx-4 bg-white">
-            <TabsNavigation
-              tabs={[
-                { id: 'overview', label: 'Overview' },
-                { id: 'variants', label: 'Variants' },
-                { id: 'reviews', label: 'Reviews' },
-                { id: 'qna', label: 'Q&A' },
-                { id: 'shipping', label: 'Shipping' }
-              ]}
-              activeTab={activeTab}
-              onTabChange={setActiveTab}
-              edgeToEdge={true}
-              style={{ backgroundColor: 'white' }}
-            />
-          </div>
-        )}
+      {/* Tabs Navigation - FIXED */}
+{totalItems > 1 && (
+  <div ref={tabsContainerRef} className="w-full bg-white">
+    <TabsNavigation
+      tabs={[
+        { id: 'overview', label: 'Overview' },
+        { id: 'variants', label: 'Variants' },
+        { id: 'reviews', label: 'Reviews' },
+        { id: 'qna', label: 'Q&A' },
+        { id: 'shipping', label: 'Shipping' }
+      ]}
+      activeTab={activeTab}
+      onTabChange={setActiveTab}
+      edgeToEdge={true}
+      style={{ backgroundColor: 'white' }}
+    />
+  </div>
+)}
 
       {/* Thumbnails - Always show when there's more than 1 item OR when there's a 3D model */}
       {(totalItems > 1 || galleryItems.some(item => item.type === 'model3d')) && (
