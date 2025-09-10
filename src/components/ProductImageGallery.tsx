@@ -239,6 +239,13 @@ const [showConfiguration, setShowConfiguration] = useState(false);
     }
   }, [images, api, onVariantImageChange]);
 
+
+
+const handleConfigurationClick = useCallback(() => {
+  setShowConfiguration(prev => !prev);
+}, []);
+
+
   const [isPlaying, setIsPlaying] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
