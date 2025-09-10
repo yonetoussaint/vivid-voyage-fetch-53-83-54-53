@@ -706,8 +706,17 @@ useImperativeHandle(ref, () => ({
 
           {/* Product Details - Bottom Right */}
           {!(focusMode || (isCurrentVideo && isPlaying)) && (
-            <ProductDetails onProductDetailsClick={onProductDetailsClick} />
-          )}
+  <div className="absolute bottom-3 right-3 z-30">
+    <button 
+      onClick={handleConfigurationClick} // Use the configuration handler
+      className="bg-black/60 backdrop-blur-sm text-white px-2 py-1 rounded-full text-xs font-medium flex items-center gap-1.5 hover:bg-black/70 transition-colors"
+    >
+      <BadgeInfo size={12} className="text-white/80" />
+      <span className="text-xs font-medium text-white/80">Product Details</span>
+      <ChevronRight size={10} className="text-white/80" />
+    </button>
+  </div>
+)}
 
           {/* Configuration Summary - Right Side (Focus Mode Only) */}
           {focusMode && (configurationData || internalConfigData) && (
