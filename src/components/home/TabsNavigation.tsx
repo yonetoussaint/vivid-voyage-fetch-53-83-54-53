@@ -113,7 +113,7 @@ export default function TabsNavigation({ tabs, activeTab, onTabChange, className
     <div className="h-full w-full">
       <div
         ref={scrollContainerRef}
-        className={`flex items-center overflow-x-auto no-scrollbar h-full w-full relative ${edgeToEdge ? 'px-4' : 'px-2'}`}
+        className={`flex items-center overflow-x-auto no-scrollbar h-full w-full relative ${edgeToEdge ? 'px-2' : 'px-2'}`}
         onScroll={() => setShouldAutoScroll(false)} // Disable auto-scroll when user manually scrolls
         style={{ 
           scrollbarWidth: 'none', 
