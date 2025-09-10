@@ -86,31 +86,31 @@ const StickyTabsNavigation: React.FC<StickyTabsNavigationProps> = ({
   if (!showStickyTabs) return null;
 
   return (
-    <div 
-      className="fixed left-0 right-0 z-40 bg-white border-b"
-      style={{ top: `${headerHeight}px` }}
-    >
-      <div className="w-screen bg-white -mx-4">
-        <TabsNavigation
-          tabs={[
-            { id: 'overview', label: 'Overview' },
-            { id: 'variants', label: 'Variants' },
-            { id: 'reviews', label: 'Reviews' },
-            { id: 'qna', label: 'Q&A' },
-            { id: 'shipping', label: 'Shipping' }
-          ]}
-          activeTab={activeTab}
-          onTabChange={handleTabClick}
-          edgeToEdge={true}
-          style={{ 
-            backgroundColor: 'white',
-            margin: 0,
-            padding: 0
-          }}
-        />
-      </div>
+  <div 
+    className="fixed left-0 right-0 z-40 bg-white border-b overflow-x-auto"
+    style={{ top: `${headerHeight}px` }}
+  >
+    <div className="w-full bg-white">
+      <TabsNavigation
+        tabs={[
+          { id: 'overview', label: 'Overview' },
+          { id: 'variants', label: 'Variants' },
+          { id: 'reviews', label: 'Reviews' },
+          { id: 'qna', label: 'Q&A' },
+          { id: 'shipping', label: 'Shipping' }
+        ]}
+        activeTab={activeTab}
+        onTabChange={handleTabClick}
+        edgeToEdge={true}
+        style={{ 
+          backgroundColor: 'white',
+          margin: 0,
+          padding: 0
+        }}
+      />
     </div>
-  );
+  </div>
+);
 };
 
 export default StickyTabsNavigation;
