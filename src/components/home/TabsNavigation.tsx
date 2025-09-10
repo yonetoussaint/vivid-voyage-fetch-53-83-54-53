@@ -121,7 +121,7 @@ export default function TabsNavigation({ tabs, activeTab, onTabChange, className
           WebkitOverflowScrolling: 'touch'
         }}
       >
-        <div className="flex items-center gap-6"> {/* Added gap container */}
+        <div className="flex items-center space-x-8"> {/* Added gap container */}
           {tabs.map((tab, index) => (
             <button
               key={tab.id}
