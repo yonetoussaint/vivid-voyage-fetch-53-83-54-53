@@ -223,12 +223,11 @@ const galleryRef = useRef<ProductImageGalleryRef>(null);
 
       {/* Sticky Tabs Navigation - Only render if we have the tabs container */}
       {tabsContainer && (
-        <StickyTabsNavigation 
-          headerHeight={headerHeight}
-          tabsContainerRef={{ current: tabsContainer }}
-          activeTab={activeTab}
-          onTabChange={handleTabChange}
-        />
+       <StickyTabsNavigation
+  headerHeight={headerHeight}
+  tabsContainerRef={galleryRef.current?.getTabsContainer() ? { current: galleryRef.current.getTabsContainer() } : { current: null }}
+  galleryRef={galleryRef}
+/>
       )}
 
       {/* Main Content */}
