@@ -126,7 +126,7 @@ const ReviewGallery = () => {
 
         {/* Scrollable Gallery */}
                   <div className="flex items-center gap-2 py-2 overflow-x-auto w-full scrollbar-hide -mx-4 px-4">
-          <div className="flex gap-4 pb-4">
+          <div className="flex gap-4 pb-4 min-w-max">
             {reviews.map((review, index) => (
               <div 
                 key={review.id} 
