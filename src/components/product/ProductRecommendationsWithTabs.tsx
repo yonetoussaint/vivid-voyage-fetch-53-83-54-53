@@ -117,73 +117,73 @@ export default function ProductRecommendationsWithTabs({ hideHeader = false, hid
   }
 
   return (
-    <div>
-      <div className="w-full bg-white">
-        {/* Header - similar to SearchInfo component */}
-        {!hideHeader && (
-          <div className="flex items-center justify-between">
-            <h1 className="text-xl font-semibold text-gray-900">
-              More from this seller
-            </h1>
-            <button className="flex items-center gap-1 py-1 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors">
-              View all <ChevronRight className="h-4 w-4" />
-            </button>
+  <div>
+    <div className="w-full bg-white">
+      {/* Header - similar to SearchInfo component */}
+      {!hideHeader && (
+        <div className="flex items-center justify-between px-4">
+          <h1 className="text-xl font-semibold text-gray-900">
+            More from this seller
+          </h1>
+          <button className="flex items-center gap-1 py-1 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors">
+            View all <ChevronRight className="h-4 w-4" />
+          </button>
+        </div>
+      )}
+
+      <div className={`relative ${hideHeader ? 'pt-0' : 'pt-4'}`}>
+        {isLoading ? (
+          <div className="flex items-center gap-2 py-2 overflow-x-auto w-full scrollbar-hide -mx-4 px-4">
+            {[1, 2, 3, 4].map((_, index) => (
+              <div key={index} className="flex-none w-[calc((100vw-32px)/3.5)] space-y-2">
+                <div className="aspect-square bg-gray-200 animate-pulse rounded-md"></div>
+                <div className="h-4 w-3/4 bg-gray-200 animate-pulse rounded"></div>
+                <div className="h-3 w-1/2 bg-gray-200 animate-pulse rounded"></div>
+              </div>
+            ))}
+          </div>
+        ) : displayedProducts.length > 0 ? (
+          <div className="flex gap-3 overflow-x-auto scrollbar-hide -mx-4 px-4">
+            {displayedProducts.slice(0, 20).map((product) => (
+              <div key={product.id} className="flex-none w-[calc((100vw-32px)/3.5)] space-y-2">
+                <Link 
+                  to={`/product/${product.id}`}
+                  onClick={() => trackProductView(product.id)}
+                  className="block"
+                >
+                  <div className="relative aspect-square overflow-hidden bg-gray-50 rounded-md">
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="h-full w-full object-contain hover:scale-105 transition-transform duration-300"
+                      loading="lazy"
+                    />
+                  </div>
+
+                  {/* Product info - Clean and simple */}
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2">
+                      <span className="text-red-500 font-semibold text-base">
+                        ${Number(product.discount_price || product.price).toFixed(2)}
+                      </span>
+                      {product.discount_price && (
+                        <span className="text-xs text-gray-500 line-through">
+                          ${Number(product.price).toFixed(2)}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </Link>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-8 text-gray-500 px-4">
+            No products available for {categoryTabs.find(tab => tab.id === activeTab)?.label}
           </div>
         )}
-
-        <div className={`relative ${hideHeader ? 'pt-0' : 'pt-4'}`}>
-          {isLoading ? (
-           <div className="flex items-center gap-2 px-2 py-2 overflow-x-auto w-full scrollbar-hide">
-              {[1, 2, 3, 4].map((_, index) => (
-                <div key={index} className="flex-none w-[calc((100vw-32px)/3.5)] space-y-2">
-                  <div className="aspect-square bg-gray-200 animate-pulse rounded-md"></div>
-                  <div className="h-4 w-3/4 bg-gray-200 animate-pulse rounded"></div>
-                  <div className="h-3 w-1/2 bg-gray-200 animate-pulse rounded"></div>
-                </div>
-              ))}
-            </div>
-          ) : displayedProducts.length > 0 ? (
-            <div className="flex gap-3 overflow-x-auto scrollbar-hide px-2">
-              {displayedProducts.slice(0, 20).map((product) => (
-                <div key={product.id} className="flex-none w-[calc((100vw-32px)/3.5)] space-y-2">
-                  <Link 
-                    to={`/product/${product.id}`}
-                    onClick={() => trackProductView(product.id)}
-                    className="block"
-                  >
-                    <div className="relative aspect-square overflow-hidden bg-gray-50 rounded-md">
-                      <img
-                        src={product.image}
-                        alt={product.name}
-                        className="h-full w-full object-contain hover:scale-105 transition-transform duration-300"
-                        loading="lazy"
-                      />
-                    </div>
-
-                    {/* Product info - Clean and simple */}
-                    <div className="space-y-1">
-                      <div className="flex items-center gap-2">
-                        <span className="text-red-500 font-semibold text-base">
-                          ${Number(product.discount_price || product.price).toFixed(2)}
-                        </span>
-                        {product.discount_price && (
-                          <span className="text-xs text-gray-500 line-through">
-                            ${Number(product.price).toFixed(2)}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  </Link>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-8 text-gray-500 px-2">
-              No products available for {categoryTabs.find(tab => tab.id === activeTab)?.label}
-            </div>
-          )}
-         </div>
       </div>
     </div>
-  );
+  </div>
+);
 }
