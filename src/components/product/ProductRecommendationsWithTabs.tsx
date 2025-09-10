@@ -133,7 +133,7 @@ export default function ProductRecommendationsWithTabs({ hideHeader = false, hid
 
         <div className={`relative ${hideHeader ? 'pt-0' : 'pt-4'}`}>
           {isLoading ? (
-            <div className="flex gap-3 overflow-x-auto scrollbar-hide -mx-2">
+           <div className="flex items-center gap-2 px-2 py-2 overflow-x-auto w-full scrollbar-hide">
               {[1, 2, 3, 4].map((_, index) => (
                 <div key={index} className="flex-none w-[calc((100vw-32px)/3.5)] space-y-2">
                   <div className="aspect-square bg-gray-200 animate-pulse rounded-md"></div>
