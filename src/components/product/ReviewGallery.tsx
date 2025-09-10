@@ -133,7 +133,7 @@ const ReviewGallery = () => {
                 className="flex-shrink-0 relative group cursor-pointer"
                 onClick={() => openImageViewer(index)}
               >
-                <div className="w-40 h-40 rounded-2xl overflow-hidden bg-gray-200 transition-transform group-hover:scale-105">
+                <div className="w-40 h-40 rounded-2xl overflow-hidden bg-gray-200">
                   <img
                     src={review.thumbnail}
                     alt={review.alt}
