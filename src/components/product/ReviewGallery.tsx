@@ -116,7 +116,7 @@ const ReviewGallery = () => {
     <>
       <div className="w-full bg-white">
         {/* Header */}
-               <div className="flex items-center justify-between">
+               <div className="flex items-center mb-4 justify-between">
           <h1 className="text-xl font-semibold text-gray-900">
            Review Gallery
           </h1>
