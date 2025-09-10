@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Star, ChevronRight, X, ChevronLeft } from 'lucide-react';
+import { Star, X, ChevronLeft, ChevronRight } from 'lucide-react';
+import SectionHeader from '@/components/shared/SectionHeader';
 
 const ReviewGallery = () => {
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
@@ -116,14 +117,12 @@ const ReviewGallery = () => {
     <>
       <div className="w-full bg-white">
         {/* Header */}
-               <div className="flex items-center mb-4 justify-between">
-          <h1 className="text-xl font-semibold text-gray-900">
-           Review Gallery
-          </h1>
-          <button className="flex items-center gap-1 py-1 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors">
-            View all <ChevronRight className="h-4 w-4" />
-          </button>
-        </div>
+        <SectionHeader 
+          title="Review Gallery"
+          showViewAll={true}
+          onViewAllClick={() => {/* Handle view all click */}}
+          className="mb-4"
+        />
 
         {/* Scrollable Gallery */}
                   <div className="flex items-center gap-2 py-2 overflow-x-auto w-full scrollbar-hide -mx-4 px-4">

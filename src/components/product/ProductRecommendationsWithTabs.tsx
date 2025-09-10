@@ -1,5 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
-import { ShoppingBag, ChevronRight } from "lucide-react";
+import { ShoppingBag } from "lucide-react";
+import SectionHeader from "@/components/shared/SectionHeader";
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchAllProducts, trackProductView } from "@/integrations/supabase/products";
@@ -119,16 +120,13 @@ export default function ProductRecommendationsWithTabs({ hideHeader = false, hid
   return (
   <div>
     <div className="w-full bg-white">
-      {/* Header - similar to SearchInfo component */}
+      {/* Header */}
       {!hideHeader && (
-        <div className="flex items-center justify-between">
-          <h1 className="text-xl font-semibold text-gray-900">
-            More from this seller
-          </h1>
-          <button className="flex items-center gap-1 py-1 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors">
-            View all <ChevronRight className="h-4 w-4" />
-          </button>
-        </div>
+        <SectionHeader 
+          title="More from this seller"
+          showViewAll={true}
+          onViewAllClick={() => {/* Handle view all click */}}
+        />
       )}
 
       <div className={`relative ${hideHeader ? 'pt-0' : 'pt-4'}`}>

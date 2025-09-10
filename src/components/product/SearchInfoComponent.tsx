@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useProduct } from '@/hooks/useProduct';
+import SearchInfoHeader from '@/components/shared/SearchInfoHeader';
 
 interface SearchInfoComponentProps {
   productId: string;
@@ -85,15 +86,7 @@ Note: Product information is not currently available. Please let the user know t
   return (
     <div className="w-full bg-white">
       {/* Header */}
-      <div className="flex items-center gap-2 mb-4">
-        <div className="relative">
-          <div className="w-5 h-5 bg-orange-500 rounded-full"></div>
-          <div className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-blue-500 rounded-full"></div>
-        </div>
-        <h1 className="text-xl font-semibold text-gray-900">
-          Looking for specific info?
-        </h1>
-      </div>
+      <SearchInfoHeader />
 
       {/* Search Input */}
       <div className="mb-4">
