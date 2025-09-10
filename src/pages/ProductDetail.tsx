@@ -247,13 +247,11 @@ const [sharePanelOpen, setSharePanelOpen] = useState(false);
             <SearchInfoComponent productId={productId} />
           </ProductSectionWrapper>
 
-          {/* Recommendations */}
-          <div ref={recommendationsRef}>
-            <ProductRecommendationsWithTabs 
-              hideHeader={showStickyRecommendations} 
-              hideTabs={showStickyRecommendations} 
-            />
-          </div>
+
+ {/* Recommendations */}
+          <ProductSectionWrapper>
+       <ProductRecommendationsWithTabs/>
+          </ProductSectionWrapper>
 
           {/* Reviews */}
           <ProductSectionWrapper>
