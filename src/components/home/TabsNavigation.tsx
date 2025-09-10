@@ -113,7 +113,7 @@ export default function TabsNavigation({ tabs, activeTab, onTabChange, className
     <div className="h-full w-full">
       <div
         ref={scrollContainerRef}
-        className={`flex items-center gap-2 overflow-x-auto no-scrollbar h-full w-full relative ${edgeToEdge ? 'px-4' : 'px-2'}`}
+        className={`flex items-center overflow-x-auto no-scrollbar h-full w-full relative ${edgeToEdge ? 'px-4' : 'px-2'}`}
         onScroll={() => setShouldAutoScroll(false)} // Disable auto-scroll when user manually scrolls
         style={{ 
           scrollbarWidth: 'none', 
@@ -121,22 +121,24 @@ export default function TabsNavigation({ tabs, activeTab, onTabChange, className
           WebkitOverflowScrolling: 'touch'
         }}
       >
-        {tabs.map((tab, index) => (
-          <button
-            key={tab.id}
-            ref={el => (tabRefs.current[index] = el)}
-            onClick={() => handleTabClick(tab.id)}
-            aria-pressed={activeTab === tab.id}
-            className={`relative flex items-center px-2 py-2 text-sm font-medium whitespace-nowrap transition-all duration-200 ease-in-out outline-none flex-shrink-0 ${
-              activeTab === tab.id
-                ? 'text-red-600'
-                : 'text-gray-700 hover:text-red-600'
-            }`}
-          >
-            {tab.icon && <span className="mr-2">{tab.icon}</span>}
-            <span className="font-medium">{tab.label}</span>
-          </button>
-        ))}
+        <div className="flex items-center gap-4"> {/* Added gap container */}
+          {tabs.map((tab, index) => (
+            <button
+              key={tab.id}
+              ref={el => (tabRefs.current[index] = el)}
+              onClick={() => handleTabClick(tab.id)}
+              aria-pressed={activeTab === tab.id}
+              className={`relative flex items-center py-2 text-sm font-medium whitespace-nowrap transition-all duration-200 ease-in-out outline-none flex-shrink-0 ${
+                activeTab === tab.id
+                  ? 'text-red-600'
+                  : 'text-gray-700 hover:text-red-600'
+              }`}
+            >
+              {tab.icon && <span className="mr-1">{tab.icon}</span>}
+              <span className="font-medium">{tab.label}</span>
+            </button>
+          ))}
+        </div>
 
         {/* Animated underline - positioned absolutely within the scroll container */}
         {activeTab && (
