@@ -41,6 +41,7 @@ const ProductDetail = () => {
   const [displayImages, setDisplayImages] = useState<string[]>([]);
   const [headerHeight, setHeaderHeight] = useState(44);
   const [tabsContainer, setTabsContainer] = useState<HTMLDivElement | null>(null);
+const [sharePanelOpen, setSharePanelOpen] = useState(false);
 
   // Refs
   const headerRef = useRef<HTMLDivElement>(null);
