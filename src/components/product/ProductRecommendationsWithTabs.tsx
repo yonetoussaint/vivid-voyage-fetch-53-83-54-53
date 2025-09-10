@@ -1,4 +1,4 @@
-simport { Link, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { ShoppingBag, ChevronRight } from "lucide-react";
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
