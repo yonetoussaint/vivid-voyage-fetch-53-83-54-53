@@ -40,8 +40,7 @@ const ProductDetail = () => {
   const [totalImages, setTotalImages] = useState(0);
   const [displayImages, setDisplayImages] = useState<string[]>([]);
   const [headerHeight, setHeaderHeight] = useState(44);
-  const [tabsContainer, setTabsContainer] = useState<HTMLDivElement | null>(null);
-const [sharePanelOpen, setSharePanelOpen] = useState(false);
+  const [sharePanelOpen, setSharePanelOpen] = useState(false);
 
   // Refs
   const headerRef = useRef<HTMLDivElement>(null);
@@ -51,8 +50,7 @@ const [sharePanelOpen, setSharePanelOpen] = useState(false);
   const descriptionRef = useRef<HTMLDivElement>(null);
   const recommendationsRef = useRef<HTMLDivElement>(null);
   const verticalRecommendationsRef = useRef<HTMLDivElement>(null);
-const galleryRef = useRef<ProductImageGalleryRef>(null);
-
+  const galleryRef = useRef<ProductImageGalleryRef>(null);
 
   // Hooks
   const navigate = useNavigate();
@@ -65,20 +63,6 @@ const galleryRef = useRef<ProductImageGalleryRef>(null);
 
   const { data: product, isLoading } = useProduct(productId);
 
-  // Function to get the tabs container from the gallery
-  const getTabsContainer = useCallback(() => {
-    if (imageGalleryRef.current) {
-      const container = imageGalleryRef.current.getTabsContainer();
-      setTabsContainer(container);
-      
-      if (container) {
-        console.log('✅ Tabs container found:', container);
-      } else {
-        console.log('❌ Tabs container not found yet');
-      }
-    }
-  }, []);
-
   // Function to handle tab changes - this should sync with the gallery's tab state
   const handleTabChange = useCallback((tab: string) => {
     setActiveTab(tab);
@@ -88,35 +72,10 @@ const galleryRef = useRef<ProductImageGalleryRef>(null);
     }
   }, []);
 
-  // Get tabs container when component mounts and gallery is ready
-  useEffect(() => {
-    // Wait for the gallery to render
-    const timeoutId = setTimeout(getTabsContainer, 1000);
-    
-    // Also get it on resize and load
-    window.addEventListener('resize', getTabsContainer);
-    window.addEventListener('load', getTabsContainer);
-    
-    return () => {
-      clearTimeout(timeoutId);
-      window.removeEventListener('resize', getTabsContainer);
-      window.removeEventListener('load', getTabsContainer);
-    };
-  }, [getTabsContainer]);
-
-  // Also try to get tabs container when product loads or changes
-  useEffect(() => {
-    if (product) {
-      // Wait a bit for the gallery to render with the new product
-      const timeoutId = setTimeout(getTabsContainer, 500);
-      return () => clearTimeout(timeoutId);
-    }
-  }, [product, getTabsContainer]);
-
   // Handle variant image selection
   const handleVariantImageSelection = useCallback((imageUrl: string, variantName: string) => {
     console.log('📷 Variant image selected in ProductDetail:', imageUrl, variantName);
-    
+
     // Update display images with variant image first
     const otherImages = product?.product_images?.map((img: any) => img.src).filter(img => img !== imageUrl) || [];
     const newImages = [imageUrl, ...otherImages];
@@ -157,7 +116,7 @@ const galleryRef = useRef<ProductImageGalleryRef>(null);
 
     // Calculate current price (simplified for now)
     const currentPrice = product?.discount_price || product?.price || 0;
-    
+
     const checkoutParams = new URLSearchParams({
       productName: product?.name || "Product",
       quantity: "1",
@@ -221,14 +180,12 @@ const galleryRef = useRef<ProductImageGalleryRef>(null);
         />
       </div>
 
-      {/* Sticky Tabs Navigation - Only render if we have the tabs container */}
-      {tabsContainer && (
-       <StickyTabsNavigation
-  headerHeight={headerHeight}
-  tabsContainerRef={galleryRef.current?.getTabsContainer() ? { current: galleryRef.current.getTabsContainer() } : { current: null }}
-  galleryRef={galleryRef}
-/>
-      )}
+      {/* Sticky Tabs Navigation - Always render, let it handle its own visibility */}
+      <StickyTabsNavigation
+        headerHeight={headerHeight}
+        tabsContainerRef={{ current: galleryRef.current?.getTabsContainer() || null }}
+        galleryRef={galleryRef}
+      />
 
       {/* Main Content */}
       <div className="flex-1 overscroll-none pb-[112px]">
@@ -248,10 +205,9 @@ const galleryRef = useRef<ProductImageGalleryRef>(null);
             <SearchInfoComponent productId={productId} />
           </ProductSectionWrapper>
 
-
- {/* Recommendations */}
+          {/* Recommendations */}
           <ProductSectionWrapper>
-       <ProductRecommendationsWithTabs/>
+            <ProductRecommendationsWithTabs/>
           </ProductSectionWrapper>
 
           {/* Reviews */}
@@ -319,21 +275,6 @@ const galleryRef = useRef<ProductImageGalleryRef>(null);
         selectedCondition=""
         className=""
       />
-
-      {/* Debug component - uncomment if needed */}
-      {/* <div style={{ 
-        position: 'fixed', 
-        bottom: 10, 
-        right: 10, 
-        background: 'rgba(0,0,0,0.8)', 
-        color: 'white', 
-        padding: 10, 
-        zIndex: 1000,
-        fontSize: '12px' 
-      }}>
-        <div>Tabs Container: {tabsContainer ? '✅ Found' : '❌ Not found'}</div>
-        <div>Active Tab: {activeTab}</div>
-      </div> */}
 
       <SocialSharePanel 
         open={sharePanelOpen}
