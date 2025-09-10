@@ -194,6 +194,7 @@ const [sharePanelOpen, setSharePanelOpen] = useState(false);
           onProductDetailsClick={() => setProductDetailsSheetOpen(true)}
           currentImageIndex={currentImageIndex}
           totalImages={totalImages}
+          onShareClick={() => setSharePanelOpen(true)}
         />
       </div>
 
@@ -334,16 +335,13 @@ const [sharePanelOpen, setSharePanelOpen] = useState(false);
         <div>Tabs Container: {tabsContainer ? '✅ Found' : '❌ Not found'}</div>
         <div>Active Tab: {activeTab}</div>
       </div> */}
+
+      <SocialSharePanel 
+        open={sharePanelOpen}
+        onOpenChange={setSharePanelOpen}
+        product={product}
+      />
     </div>
-
-
-<SocialSharePanel 
-  open={sharePanelOpen}
-  onOpenChange={setSharePanelOpen}
-  product={product}
-/>
-
-
   );
 };
 

@@ -19,6 +19,7 @@ interface ProductHeaderProps {
   onProductDetailsClick?: () => void;
   currentImageIndex?: number;
   totalImages?: number;
+  onShareClick?: () => void;
 }
 
 const ProductHeader: React.FC<ProductHeaderProps> = ({ 
@@ -28,7 +29,8 @@ const ProductHeader: React.FC<ProductHeaderProps> = ({
   showHeaderInFocus = false,
   onProductDetailsClick,
   currentImageIndex,
-  totalImages
+  totalImages,
+  onShareClick
 }) => {
   const [isFavorite, setIsFavorite] = useState(false);
   const { progress } = useScrollProgress();
@@ -101,7 +103,7 @@ const ProductHeader: React.FC<ProductHeaderProps> = ({
   Icon={Share} 
   progress={progress}
   shareCount={23}
-  onClick={() => setSharePanelOpen(true)} // Add this line
+  onClick={onShareClick}
 />
         </div>
       </div>
