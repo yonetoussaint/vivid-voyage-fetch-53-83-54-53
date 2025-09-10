@@ -98,10 +98,11 @@ const ProductHeader: React.FC<ProductHeaderProps> = ({
           />
 
           <HeaderActionButton 
-            Icon={Share} 
-            progress={progress}
-            shareCount={23} // Example count - replace with actual data
-          />
+  Icon={Share} 
+  progress={progress}
+  shareCount={23}
+  onClick={() => setSharePanelOpen(true)} // Add this line
+/>
         </div>
       </div>
     </div>
