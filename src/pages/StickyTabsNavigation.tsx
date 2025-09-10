@@ -1,33 +1,55 @@
 // components/product/StickyTabsNavigation.tsx
 import React, { useState, useEffect } from 'react';
 import TabsNavigation from "@/components/home/TabsNavigation";
+import { ProductImageGalleryRef } from "@/components/product/ProductImageGallery";
 
 interface StickyTabsNavigationProps {
   headerHeight: number;
   tabsContainerRef: React.RefObject<HTMLDivElement>;
-  activeTab: string;
-  onTabChange: (tab: string) => void;
+  // Remove these props since we'll get them from the gallery ref
+  // activeTab: string;
+  // onTabChange: (tab: string) => void;
+  // Add gallery ref to sync state
+  galleryRef: React.RefObject<ProductImageGalleryRef>;
 }
 
 const StickyTabsNavigation: React.FC<StickyTabsNavigationProps> = ({
   headerHeight,
   tabsContainerRef,
-  activeTab,
-  onTabChange
+  galleryRef
 }) => {
   const [showStickyTabs, setShowStickyTabs] = useState(false);
+  const [activeTab, setActiveTab] = useState('overview'); // Local state for UI updates
+
+  // Sync with gallery's active tab
+  useEffect(() => {
+    const syncActiveTab = () => {
+      if (galleryRef.current) {
+        const galleryActiveTab = galleryRef.current.getActiveTab();
+        if (galleryActiveTab !== activeTab) {
+          setActiveTab(galleryActiveTab);
+        }
+      }
+    };
+
+    // Sync initially and then periodically
+    syncActiveTab();
+    const interval = setInterval(syncActiveTab, 100); // Check every 100ms
+
+    return () => clearInterval(interval);
+  }, [galleryRef, activeTab]);
 
   useEffect(() => {
     const handleScrollForStickyTabs = () => {
       if (tabsContainerRef.current) {
         const tabsRect = tabsContainerRef.current.getBoundingClientRect();
-        
+
         // Show sticky tabs when the original tabs start to scroll out of view
         // (when top of tabs container reaches bottom of header)
         const shouldShow = tabsRect.top <= headerHeight;
-        
+
         setShowStickyTabs(shouldShow);
-        
+
         console.log('📊 Tabs scroll detection:', {
           tabsTop: tabsRect.top,
           headerHeight,
@@ -40,16 +62,21 @@ const StickyTabsNavigation: React.FC<StickyTabsNavigationProps> = ({
     return () => window.removeEventListener('scroll', handleScrollForStickyTabs);
   }, [tabsContainerRef, headerHeight]);
 
-  // Handle tab click with smooth scrolling
+  // Handle tab click with smooth scrolling and sync with gallery
   const handleTabClick = (tabId: string) => {
-    // Update the active tab
-    onTabChange(tabId);
+    // Update the gallery's active tab
+    if (galleryRef.current) {
+      galleryRef.current.setActiveTab(tabId);
+    }
     
+    // Update local state immediately for UI responsiveness
+    setActiveTab(tabId);
+
     // Scroll to the corresponding section
     const targetElement = document.getElementById(tabId);
     if (targetElement) {
       const offsetTop = targetElement.offsetTop - headerHeight - 60; // 60px buffer for sticky tabs
-      
+
       window.scrollTo({
         top: Math.max(0, offsetTop),
         behavior: 'smooth'
