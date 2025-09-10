@@ -106,41 +106,53 @@ export default function TabsNavigation({ tabs, activeTab, onTabChange, className
 
   return (
   <div
-  className={`relative w-full transition-all duration-700 overflow-hidden ${className}`}
-  style={finalStyle}
->
-  {/* Tabs List */}
-  <div className="h-full w-full">
-    <div
-      ref={scrollContainerRef}
-      className={`flex items-center overflow-x-auto no-scrollbar h-full w-full relative ${edgeToEdge ? 'px-2' : 'px-2'}`}
-      onScroll={() => setShouldAutoScroll(false)} // Disable auto-scroll when user manually scrolls
-      style={{ 
-        scrollbarWidth: 'none', 
-        msOverflowStyle: 'none',
-        WebkitOverflowScrolling: 'touch'
-      }}
-    >
-      <div className="flex items-center space-x-8"> {/* changed from gap-* to space-x-* */}
-        {tabs.map((tab, index) => (
-          <button
-            key={tab.id}
-            ref={el => (tabRefs.current[index] = el)}
-            onClick={() => handleTabClick(tab.id)}
-            aria-pressed={activeTab === tab.id}
-            className={`relative flex items-center py-2 text-sm font-medium whitespace-nowrap transition-all duration-200 ease-in-out outline-none flex-shrink-0 ${
-              activeTab === tab.id
-                ? 'text-red-600'
-                : 'text-gray-700 hover:text-red-600'
-            }`}
-          >
-            {tab.icon && <span className="mr-1">{tab.icon}</span>}
-            <span className="font-medium">{tab.label}</span>
-          </button>
-        ))}
+    className={`relative w-full transition-all duration-700 overflow-hidden ${className}`}
+    style={finalStyle}
+  >
+    {/* Tabs List */}
+    <div className="h-full w-full">
+      <div
+        ref={scrollContainerRef}
+        className={`flex items-center overflow-x-auto no-scrollbar h-full w-full relative ${edgeToEdge ? 'px-2' : 'px-2'}`}
+        onScroll={() => setShouldAutoScroll(false)} // Disable auto-scroll when user manually scrolls
+        style={{ 
+          scrollbarWidth: 'none', 
+          msOverflowStyle: 'none',
+          WebkitOverflowScrolling: 'touch'
+        }}
+      >
+        <div className="flex items-center gap-6"> {/* Added gap container */}
+          {tabs.map((tab, index) => (
+            <button
+              key={tab.id}
+              ref={el => (tabRefs.current[index] = el)}
+              onClick={() => handleTabClick(tab.id)}
+              aria-pressed={activeTab === tab.id}
+              className={`relative flex items-center py-2 text-sm font-medium whitespace-nowrap transition-all duration-200 ease-in-out outline-none flex-shrink-0 ${
+                activeTab === tab.id
+                  ? 'text-red-600'
+                  : 'text-gray-700 hover:text-red-600'
+              }`}
+            >
+              {tab.icon && <span className="mr-1">{tab.icon}</span>}
+              <span className="font-medium">{tab.label}</span>
+            </button>
+          ))}
+        </div>
+
+        {/* Animated underline - positioned absolutely within the scroll container */}
+        {activeTab && (
+          <div
+            className="absolute bottom-0 h-1 bg-gradient-to-r from-red-500 to-red-600 rounded-full transition-all duration-300 ease-out"
+            style={{ 
+              width: underlineWidth,
+              left: underlineLeft,
+              transform: 'translateZ(0)', // Hardware acceleration
+            }}
+          />
+        )}
       </div>
     </div>
   </div>
-</div>
 );
 }
