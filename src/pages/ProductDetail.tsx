@@ -183,7 +183,6 @@ const ProductDetail = () => {
       {/* Sticky Tabs Navigation - Always render, let it handle its own visibility */}
       <StickyTabsNavigation
         headerHeight={headerHeight}
-        tabsContainerRef={{ current: galleryRef.current?.getTabsContainer() || null }}
         galleryRef={galleryRef}
       />
 
