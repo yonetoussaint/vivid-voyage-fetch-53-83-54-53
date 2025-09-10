@@ -121,7 +121,7 @@ export default function ProductRecommendationsWithTabs({ hideHeader = false, hid
     <div className="w-full bg-white">
       {/* Header - similar to SearchInfo component */}
       {!hideHeader && (
-        <div className="flex items-center justify-between px-4">
+        <div className="flex items-center justify-between">
           <h1 className="text-xl font-semibold text-gray-900">
             More from this seller
           </h1>
