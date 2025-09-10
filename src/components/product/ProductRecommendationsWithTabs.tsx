@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+simport { Link, useLocation } from "react-router-dom";
 import { ShoppingBag, ChevronRight } from "lucide-react";
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
@@ -125,7 +125,7 @@ export default function ProductRecommendationsWithTabs({ hideHeader = false, hid
             <h1 className="text-xl font-semibold text-gray-900">
               More from this seller
             </h1>
-            <button className="flex items-center gap-1 px-2 py-1 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors">
+            <button className="flex items-center gap-1 py-1 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors">
               View all <ChevronRight className="h-4 w-4" />
             </button>
           </div>
