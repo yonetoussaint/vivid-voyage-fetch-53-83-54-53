@@ -8,8 +8,9 @@ import {
   useSellerReels 
 } from '@/hooks/useSeller';
 import { 
-  ChevronLeft, MessageCircle, ExternalLink, ChevronDown, ChevronUp
+  ChevronLeft, MessageCircle, ExternalLink, ChevronDown, ChevronUp, Heart, Search
 } from 'lucide-react';
+import { useScrollProgress } from '@/hooks/useScrollProgress';
 import VerificationBadge from '@/components/shared/VerificationBadge';
 import { supabase } from '@/integrations/supabase/client';
 
@@ -36,6 +37,7 @@ const SellerPage = () => {
   const [showVideoUploadDialog, setShowVideoUploadDialog] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [showLinksDropdown, setShowLinksDropdown] = useState(false);
+  const { progress } = useScrollProgress();
 
   const { data: seller, isLoading: sellerLoading } = useSeller(sellerId!);
   const { data: products = [], isLoading: productsLoading, refetch: refetchProducts } = useSellerProducts(sellerId!);
@@ -182,42 +184,95 @@ const SellerPage = () => {
 
   return (
     <div className={`min-h-screen bg-gray-50 transition-opacity duration-300 ${isVisible ? "opacity-100" : "opacity-0"}`}>
-      {/* Header */}
+      {/* Adaptive Header */}
       <div className="bg-white fixed top-0 left-0 right-0 z-50 border-b border-gray-100">
-        <div className="flex items-center px-3 py-2 gap-3">
+        {/* Main Header Row */}
+        <div 
+          className="flex items-center px-3 py-2 gap-3 transition-all duration-300"
+          style={{
+            backgroundColor: `rgba(255, 255, 255, ${0.95 + (progress * 0.05)})`,
+            backdropFilter: `blur(${progress * 4}px)`,
+          }}
+        >
+          {/* Back Button - Always Present */}
           <button 
-            className="p-1 hover:bg-gray-100 rounded-lg transition-colors"
+            className="p-1 hover:bg-gray-100 rounded-lg transition-colors flex-shrink-0"
             onClick={() => navigate(-1)}
           >
             <ChevronLeft className="w-5 h-5 text-gray-700" />
           </button>
 
-          {/* Search Bar */}
-          <div className="flex-1 relative">
-            <input
-              type="text"
-              placeholder="Search products..."
-              className="w-full px-3 py-1.5 bg-gray-100 rounded-lg text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white"
-            />
-          </div>
+          {/* Collapsed Seller Info - Shows when scrolled */}
+          {progress > 0.3 && seller && (
+            <div className="flex items-center gap-2 flex-1 min-w-0">
+              <img 
+                src={getSellerLogoUrl(seller.image_url)} 
+                alt={seller.name} 
+                className="w-8 h-8 rounded-full flex-shrink-0" 
+              />
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center gap-1">
+                  <h2 className="text-sm font-semibold text-gray-900 truncate">{seller.name}</h2>
+                  {seller.verified && <VerificationBadge size="sm" />}
+                </div>
+                <div className="flex items-center gap-1 text-xs text-gray-500">
+                  <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
+                  <span>Last seen 2 hours ago</span>
+                </div>
+              </div>
+              
+              {/* Quick Actions when scrolled */}
+              <div className="flex items-center gap-2 flex-shrink-0">
+                <button 
+                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                    isFollowing 
+                      ? 'bg-gray-100 text-gray-700 border border-gray-200' 
+                      : 'bg-blue-500 text-white'
+                  }`}
+                  onClick={handleFollow}
+                >
+                  {isFollowing ? 'Following' : 'Follow'}
+                </button>
+                <button className="p-1.5 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors">
+                  <MessageCircle className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          )}
 
-          {/* AI Ask Icon */}
-          <button className="p-1.5 hover:bg-gray-100 rounded-lg transition-colors">
-            <MessageCircle className="w-4 h-4 text-gray-600" />
-          </button>
+          {/* Search Bar - Shows when not scrolled */}
+          {progress <= 0.3 && (
+            <>
+              <div className="flex-1 relative">
+                <input
+                  type="text"
+                  placeholder="Search products..."
+                  className="w-full px-3 py-1.5 bg-gray-100 rounded-lg text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white"
+                />
+                <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-600" />
+              </div>
+
+              {/* Message Icon */}
+              <button className="p-1.5 hover:bg-gray-100 rounded-lg transition-colors">
+                <MessageCircle className="w-4 h-4 text-gray-600" />
+              </button>
+            </>
+          )}
         </div>
 
-        {/* Tabs Navigation */}
-        <SellerTabsNavigation
-          activeTab={activeMainTab}
-          onTabChange={setActiveMainTab}
-          productCount={products.length}
-          reelsCount={videos.length}
-        />
+        {/* Sticky Tabs Navigation */}
+        <div className="border-t border-gray-100">
+          <SellerTabsNavigation
+            activeTab={activeMainTab}
+            onTabChange={setActiveMainTab}
+            productCount={products.length}
+            reelsCount={videos.length}
+          />
+        </div>
       </div>
 
-      {/* Tab Content - Removed padding-top to eliminate gap */}
-      <div className="mt-[--header-height] min-h-screen bg-gray-50" style={{'--header-height': 'calc(2.5rem + 3rem)'} as React.CSSProperties}>
+      {/* Tab Content */}
+      <div className="pt-[120px] min-h-screen bg-gray-50">{/* Adjust padding for fixed header height */}
         {activeMainTab === 'home' && (
           <SellerHomeTab
             seller={seller}
@@ -228,6 +283,7 @@ const SellerPage = () => {
             mockSocialLinks={mockSocialLinks}
             showLinksDropdown={showLinksDropdown}
             onToggleLinksDropdown={() => setShowLinksDropdown(!showLinksDropdown)}
+            hideSellerInfo={progress > 0.3} // Hide seller info when scrolled
           />
         )}
 

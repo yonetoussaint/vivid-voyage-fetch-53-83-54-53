@@ -15,6 +15,7 @@ interface SellerHomeTabProps {
   mockSocialLinks: any[];
   showLinksDropdown: boolean;
   onToggleLinksDropdown: () => void;
+  hideSellerInfo?: boolean;
 }
 
 const SellerHomeTab: React.FC<SellerHomeTabProps> = ({ 
@@ -25,7 +26,8 @@ const SellerHomeTab: React.FC<SellerHomeTabProps> = ({
   onFollow, 
   mockSocialLinks, 
   showLinksDropdown, 
-  onToggleLinksDropdown 
+  onToggleLinksDropdown,
+  hideSellerInfo = false
 }) => {
   const formatNumber = (num: number): string => {
     if (num >= 1000000) {
@@ -118,117 +120,121 @@ const [selectedPost, setSelectedPost] = useState(null);
 
   return (
     <div className="bg-white min-h-screen">
-      {/* Store Header */}
-      <div className="border-b border-gray-100">
-        <div className="p-3">
-          <div className="flex items-center gap-3">
-            <img 
-              src={seller.image_url} 
-              alt={seller.name} 
-              className="w-12 h-12 rounded-full" 
-            />
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2 mb-1">
-                <h2 className="text-base font-semibold text-gray-900 truncate">{seller.name}</h2>
-                {seller.verified && <VerificationBadge size="sm" />}
+      {/* Store Header - Only show when not hiding seller info */}
+      {!hideSellerInfo && (
+        <>
+          <div className="border-b border-gray-100">
+            <div className="p-3">
+              <div className="flex items-center gap-3">
+                <img 
+                  src={seller.image_url} 
+                  alt={seller.name} 
+                  className="w-12 h-12 rounded-full" 
+                />
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-1">
+                    <h2 className="text-base font-semibold text-gray-900 truncate">{seller.name}</h2>
+                    {seller.verified && <VerificationBadge size="sm" />}
+                  </div>
+                  <div className="flex items-center gap-2 text-xs text-gray-500">
+                    <div className="flex items-center gap-1">
+                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                      <span>Last seen 2 hours ago</span>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className="flex items-center gap-2 text-xs text-gray-500">
+
+              <p className="text-xs text-gray-600 mt-2 leading-relaxed">
+                Premium electronics and gadgets store with over 5 years of experience. 
+                We offer high-quality products with fast shipping and excellent customer service.
+              </p>
+
+              <div className="flex items-center gap-2 mt-2 text-xs text-gray-500">
+                <span>Joined March 2019</span>
+                <span>•</span>
                 <div className="flex items-center gap-1">
-                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                  <span>Last seen 2 hours ago</span>
+                  <MapPin className="w-3 h-3" />
+                  <span>{seller.location || 'Location not set'}</span>
                 </div>
               </div>
             </div>
           </div>
 
-          <p className="text-xs text-gray-600 mt-2 leading-relaxed">
-            Premium electronics and gadgets store with over 5 years of experience. 
-            We offer high-quality products with fast shipping and excellent customer service.
-          </p>
-
-          <div className="flex items-center gap-2 mt-2 text-xs text-gray-500">
-            <span>Joined March 2019</span>
-            <span>•</span>
-            <div className="flex items-center gap-1">
-              <MapPin className="w-3 h-3" />
-              <span>{seller.location || 'Location not set'}</span>
+          {/* Stats Row */}
+          <div className="border-b border-gray-100">
+            <div className="grid grid-cols-4 divide-x divide-gray-100">
+              <div className="px-3 py-4 text-center">
+                <div className="text-base font-semibold text-gray-900">{seller.rating?.toFixed(1) || '0.0'}</div>
+                <div className="text-xs text-gray-500 mt-0.5">Rating</div>
+              </div>
+              <div className="px-3 py-4 text-center">
+                <div className="text-base font-semibold text-gray-900">{formatNumber(seller.followers_count)}</div>
+                <div className="text-xs text-gray-500 mt-0.5">Followers</div>
+              </div>
+              <div className="px-3 py-4 text-center">
+                <div className="text-base font-semibold text-gray-900">{formatNumber(seller.total_sales)}</div>
+                <div className="text-xs text-gray-500 mt-0.5">Sales</div>
+              </div>
+              <div className="px-3 py-4 text-center">
+                <div className="text-base font-semibold text-gray-900">{products.length}</div>
+                <div className="text-xs text-gray-500 mt-0.5">Products</div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      {/* Stats Row */}
-      <div className="border-b border-gray-100">
-        <div className="grid grid-cols-4 divide-x divide-gray-100">
-          <div className="px-3 py-4 text-center">
-            <div className="text-base font-semibold text-gray-900">{seller.rating?.toFixed(1) || '0.0'}</div>
-            <div className="text-xs text-gray-500 mt-0.5">Rating</div>
-          </div>
-          <div className="px-3 py-4 text-center">
-            <div className="text-base font-semibold text-gray-900">{formatNumber(seller.followers_count)}</div>
-            <div className="text-xs text-gray-500 mt-0.5">Followers</div>
-          </div>
-          <div className="px-3 py-4 text-center">
-            <div className="text-base font-semibold text-gray-900">{formatNumber(seller.total_sales)}</div>
-            <div className="text-xs text-gray-500 mt-0.5">Sales</div>
-          </div>
-          <div className="px-3 py-4 text-center">
-            <div className="text-base font-semibold text-gray-900">{products.length}</div>
-            <div className="text-xs text-gray-500 mt-0.5">Products</div>
-          </div>
-        </div>
-      </div>
-
-      {/* Action Buttons */}
-      <div className="border-b border-gray-100 p-3">
-        <div className="flex items-center gap-2">
-          <button 
-            className={`flex-1 py-2 px-4 rounded-lg text-sm font-medium transition-colors ${
-              isFollowing 
-                ? 'bg-gray-100 text-gray-700 hover:bg-gray-200 border border-gray-200' 
-                : 'bg-blue-500 text-white hover:bg-blue-600'
-            }`}
-            onClick={onFollow}
-          >
-            {isFollowing ? 'Following' : 'Follow'}
-          </button>
-          <button className="flex-1 py-2 px-4 bg-white border border-gray-200 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors flex items-center justify-center gap-2">
-            <MessageCircle className="w-4 h-4" />
-            Message
-          </button>
-          <button 
-            className="py-2 px-3 bg-white border border-gray-200 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors flex items-center gap-1"
-            onClick={onToggleLinksDropdown}
-          >
-            <ExternalLink className="w-4 h-4" />
-            {showLinksDropdown ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
-          </button>
-        </div>
-      </div>
-
-      {/* Social Links Dropdown */}
-      {showLinksDropdown && (
-        <div className="border-b border-gray-100">
-          <div className="p-3">
-            <div className="grid grid-cols-2 gap-2">
-              {mockSocialLinks.map((link) => (
-                <a 
-                  key={link.platform}
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 p-2.5 border border-gray-200 rounded text-sm text-gray-700 active:bg-gray-50"
-                >
-                  {link.platform === 'instagram' && <Instagram className="w-4 h-4 text-pink-500" />}
-                  {link.platform === 'twitter' && <Twitter className="w-4 h-4 text-blue-500" />}
-                  {link.platform === 'facebook' && <Facebook className="w-4 h-4 text-blue-600" />}
-                  {link.platform === 'website' && <Globe className="w-4 h-4 text-green-500" />}
-                  <span className="capitalize font-medium">{link.platform}</span>
-                </a>
-              ))}
+          {/* Action Buttons */}
+          <div className="border-b border-gray-100 p-3">
+            <div className="flex items-center gap-2">
+              <button 
+                className={`flex-1 py-2 px-4 rounded-lg text-sm font-medium transition-colors ${
+                  isFollowing 
+                    ? 'bg-gray-100 text-gray-700 hover:bg-gray-200 border border-gray-200' 
+                    : 'bg-blue-500 text-white hover:bg-blue-600'
+                }`}
+                onClick={onFollow}
+              >
+                {isFollowing ? 'Following' : 'Follow'}
+              </button>
+              <button className="flex-1 py-2 px-4 bg-white border border-gray-200 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors flex items-center justify-center gap-2">
+                <MessageCircle className="w-4 h-4" />
+                Message
+              </button>
+              <button 
+                className="py-2 px-3 bg-white border border-gray-200 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors flex items-center gap-1"
+                onClick={onToggleLinksDropdown}
+              >
+                <ExternalLink className="w-4 h-4" />
+                {showLinksDropdown ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+              </button>
             </div>
           </div>
-        </div>
+
+          {/* Social Links Dropdown */}
+          {showLinksDropdown && (
+            <div className="border-b border-gray-100">
+              <div className="p-3">
+                <div className="grid grid-cols-2 gap-2">
+                  {mockSocialLinks.map((link) => (
+                    <a 
+                      key={link.platform}
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 p-2.5 border border-gray-200 rounded text-sm text-gray-700 active:bg-gray-50"
+                    >
+                      {link.platform === 'instagram' && <Instagram className="w-4 h-4 text-pink-500" />}
+                      {link.platform === 'twitter' && <Twitter className="w-4 h-4 text-blue-500" />}
+                      {link.platform === 'facebook' && <Facebook className="w-4 h-4 text-blue-600" />}
+                      {link.platform === 'website' && <Globe className="w-4 h-4 text-green-500" />}
+                      <span className="capitalize font-medium">{link.platform}</span>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+        </>
       )}
 
       {/* Store Policies */}
