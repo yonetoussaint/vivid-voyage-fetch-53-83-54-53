@@ -187,6 +187,7 @@ const ProductImageGallery = forwardRef<ProductImageGalleryRef, ProductImageGalle
   const [focusMode, setFocusMode] = useState(false);
   const [isMuted, setIsMuted] = useState(true); // Start muted
   const [volume, setVolume] = useState(1);
+const [showConfiguration, setShowConfiguration] = useState(false);
 
   const [zoomLevel, setZoomLevel] = useState(1);
   const [showCompareMode, setShowCompareMode] = useState(false);
