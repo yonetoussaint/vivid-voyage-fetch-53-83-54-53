@@ -13,6 +13,7 @@ import ProductHeader from "@/components/product/ProductHeader";
 import ProductImageGallery, { ProductImageGalleryRef } from "@/components/ProductImageGallery";
 import ProductSectionWrapper from "@/components/product/ProductSectionWrapper";
 import ProductDetailsTabs from '@/components/product/ProductDetailsTabs';
+import SocialSharePanel from "@/components/product/SocialSharePanel";
 import ProductRecommendationsWithTabs from '@/components/product/ProductRecommendationsWithTabs';
 import ReviewGallery from '@/components/product/ReviewGallery';
 import SearchInfoComponent from '@/components/product/SearchInfoComponent';
