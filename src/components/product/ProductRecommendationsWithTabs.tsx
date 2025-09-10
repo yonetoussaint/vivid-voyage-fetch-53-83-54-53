@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { ShoppingBag, ChevronDown, ChevronUp } from "lucide-react";
+import { ShoppingBag, ChevronRight } from "lucide-react";
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchAllProducts, trackProductView } from "@/integrations/supabase/products";
@@ -8,7 +8,7 @@ import ProductSectionWrapper from "@/components/product/ProductSectionWrapper";
 
 export default function ProductRecommendationsWithTabs({ hideHeader = false, hideTabs = false }: { hideHeader?: boolean; hideTabs?: boolean }) {
   const location = useLocation();
-  
+
   // Define product category tabs
   const categoryTabs = [
     { id: 'electronics', label: 'Electronics' },
@@ -28,7 +28,6 @@ export default function ProductRecommendationsWithTabs({ hideHeader = false, hid
   const [activeTab, setActiveTab] = useState(categoryTabs[0]?.id || 'electronics');
   const [visibleProducts, setVisibleProducts] = useState(8);
   const [loading, setLoading] = useState(false);
-  const [isCollapsed, setIsCollapsed] = useState(false);
 
   // Reset component state when location changes (navigating to different product)
   useEffect(() => {
@@ -53,7 +52,7 @@ export default function ProductRecommendationsWithTabs({ hideHeader = false, hid
   // Create a stable shuffled list using a seeded random approach
   const extendedProducts = useMemo(() => {
     if (processedProducts.length === 0) return [];
-    
+
     // Create a stable shuffled array using Fisher-Yates algorithm with a fixed seed
     const shuffleArray = (array) => {
       const newArray = [...array];
@@ -65,15 +64,15 @@ export default function ProductRecommendationsWithTabs({ hideHeader = false, hid
       }
       return newArray;
     };
-    
+
     const shuffledProducts = shuffleArray(processedProducts);
-    
+
     // Extend the list for infinite scroll but maintain order
     const extended = [];
     for (let i = 0; i < 200; i++) {
       extended.push(shuffledProducts[i % shuffledProducts.length]);
     }
-    
+
     return extended;
   }, [processedProducts, activeTab]); // activeTab as dependency ensures reshuffle only when tab changes
 
@@ -126,17 +125,12 @@ export default function ProductRecommendationsWithTabs({ hideHeader = false, hid
             <h1 className="text-xl font-semibold text-gray-900">
               More from this seller
             </h1>
-            <button
-              onClick={() => setIsCollapsed(!isCollapsed)}
-              className="p-1 hover:bg-gray-100 rounded-lg transition-colors"
-            >
-              {isCollapsed ? <ChevronDown className="h-6 w-6 text-gray-700" /> : <ChevronUp className="h-6 w-6 text-gray-700" />}
+            <button className="flex items-center gap-1 px-2 py-1 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors">
+              View all <ChevronRight className="h-4 w-4" />
             </button>
           </div>
         )}
 
-
-      {!isCollapsed && (
         <div className={`relative ${hideHeader ? 'pt-0' : 'pt-4'}`}>
           {isLoading ? (
             <div className="flex gap-3 overflow-x-auto scrollbar-hide px-2">
@@ -189,7 +183,6 @@ export default function ProductRecommendationsWithTabs({ hideHeader = false, hid
             </div>
           )}
          </div>
-       )}
       </div>
     </div>
   );
