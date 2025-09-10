@@ -335,6 +335,15 @@ const [sharePanelOpen, setSharePanelOpen] = useState(false);
         <div>Active Tab: {activeTab}</div>
       </div> */}
     </div>
+
+
+<SocialSharePanel 
+  open={sharePanelOpen}
+  onOpenChange={setSharePanelOpen}
+  product={product}
+/>
+
+
   );
 };
 
